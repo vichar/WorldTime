@@ -51,23 +51,68 @@
          font-family: Georgia;
        }
     </style>
-    <script src="https://unpkg.com/vue"></script>
+
   </head>
   <body>
+        <script src="https://unpkg.com/vue"></script>
+
     <center><h1 class='app-header'>World time</h1></center>
-    <p><button class = "app-button">South East Asia</button></p>
     
-    
-      
+   
+<div id = "Location">
+     <h1>    {{getUTC().toUTCString()}} </h1>
+          <p><button class = "app-button">South East Asia</button></p>
 <table>
-  <tr>
-    <td class = "app-city">Thailand - Bangkok</td>
-    <td class = "app-time"> 23:00 </td>
+   <tbody>
+  <tr v-for ="city in cities ">
+    <td class = "app-city"> {{ city.name }} </td>
+    <td class = "app-time"> {{ city.offsetDisplay }} </td>
+    <td class = "app-time"> {{ calculateTime(city.offsetTime , getUTC()) }} </td>
   </tr> 
+    </tbody>   
+</table>
+ </div>
 
-    </table>
+
+     <script  type ="text/javascript">
+     var app = new Vue 
+     ({
+      el: '#Location',
+      data : {
+        cities:[
+                {name : "Thailand",offsetDisplay : "+07:00 ",offsetTime: 7.00}, 
+                {name : "Myanmar", offsetDisplay : " +06:30",offsetTime: 6.30},
+                {name : "Laos", offsetDisplay : "+07:00",offsetTime: 7.00 },
+                {name : "Singapore", offsetDisplay : "+08:00",offsetTime: 8.00},
+                {name : "Timor-Leste", offsetDisplay : "+09:00",offsetTime: 9.00}
+              ]
+            ,
+            }, 
+      methods: {
+                  calculateTime: function(offset,time) 
+                  {
+                      var epochTime =time.getTime();
+                      var calculateSecond = offset * 3600 ;
+                      var localTime = epochTime + calculateSecond
+                      var dateTime = new Date(0)
+                      dateTime.setSeconds(localTime);
+                      return (time.getUTCHours() + offset).toFixed(2);                     
+                     
+                  },
+                  getUTC: function()
+                  {
+                    var utcTime = new Date();
+                    return utcTime;
+                  }
+              }
+      
+     })
+    </script>
     
-
+    
+ 
+  
+    
    
   </body>
 </html>
