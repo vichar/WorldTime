@@ -67,7 +67,7 @@
   <tr v-for ="city in cities ">
     <td class = "app-city"> {{ city.name }} </td>
     <td class = "app-time"> {{ city.offsetDisplay }} </td>
-    <td class = "app-time"> {{ calculateTime(city.offsetTime , getUTC()) }} </td>
+    <td class = "app-time"> {{ calculateTime(getUTC(), city.offsetHours,city.offsetMinutes) }} </td>
   </tr> 
     </tbody>   
 </table>
@@ -80,23 +80,20 @@
       el: '#Location',
       data : {
         cities:[
-                {name : "Thailand",offsetDisplay : "+07:00 ",offsetTime: 7.00}, 
-                {name : "Myanmar", offsetDisplay : " +06:30",offsetTime: 6.30},
-                {name : "Laos", offsetDisplay : "+07:00",offsetTime: 7.00 },
-                {name : "Singapore", offsetDisplay : "+08:00",offsetTime: 8.00},
-                {name : "Timor-Leste", offsetDisplay : "+09:00",offsetTime: 9.00}
+                {name : "Thailand",offsetDisplay : "+07:00 ",offsetHours: 7.00 ,offsetMinutes: 0.0}, 
+                {name : "Myanmar", offsetDisplay : " +06:30",offsetHours: 6.00 ,offsetMinutes: 30.0},
+                {name : "Laos", offsetDisplay : "+07:00",offsetHours: 7.00 ,offsetMinutes: 0.0 },
+                {name : "Singapore", offsetDisplay : "+08:00",offsetHours: 8.00 ,offsetMinutes: 0.0},
+                {name : "Timor-Leste", offsetDisplay : "+09:00",offsetHours: 9.00 ,offsetMinutes: 0.0}
               ]
             ,
             }, 
       methods: {
-                  calculateTime: function(offset,time) 
+                  calculateTime: function(time,hours,minutes) 
                   {
                       var epochTime =time.getTime();
-                      var calculateSecond = offset * 3600 ;
-                      var localTime = epochTime + calculateSecond
-                      var dateTime = new Date(0)
-                      dateTime.setSeconds(localTime);
-                      return (time.getUTCHours() + offset).toFixed(2);                     
+    
+                      return time.getUTCHours() + hours + ":" + (time.getUTCMinutes() + minutes) %60 ;                    
                      
                   },
                   getUTC: function()
