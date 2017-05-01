@@ -1,130 +1,139 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <title>World Time V 0.1</title>
 
-    <style>
-       .app-header {
-         background-color:gray;
-         color:white;
-         font-family: Tahoma;
-         width: 100%;
-       }
-       .app-button {
-         box-sizing: border-box;
-    padding: 0 4px;
-  
-    user-select: none;
-    text-align: center;
-    white-space: nowrap;
-    text-decoration: none;
-    color: #fff;
-    font-size: 18px;
-    height: 35px;
-    width: 180px;
-    text-indent: -12px;
-    background-color: blue;
-    font-family: Trebuchet MS;
-    
-       }
-       .app-table {
-         
-       }
-       .app-city {
-         color:white;
-         background-color:#c9302c;
-         margin-top:20px;
-         margin-bottom: 10px;
-         font-weight: 500;
-         line-height: 1.1;
-         font-family: Comic Sans MS;
-       }
-       .app-time {
-         color:white;
-         background-color:#449d44;
-         margin-top:20px;
-         margin-bottom: 10px;
-         font-weight: 500;
-         line-height: 1.1;
-         font-family: Georgia;
-       }
-    </style>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>World Time V 0.1</title>
 
-  </head>
-  <body>
-        <script src="https://unpkg.com/vue"></script>
+  <style>
+    .app-header {
+      background-color: gray;
+      color: white;
+      font-family: Tahoma;
+      width: 100%;
+    }
+    
+    .app-button {
+      box-sizing: border-box;
+      padding: 0 4px;
+      user-select: none;
+      text-align: center;
+      white-space: nowrap;
+      text-decoration: none;
+      color: #fff;
+      font-size: 18px;
+      height: 35px;
+      width: 180px;
+      text-indent: -12px;
+      background-color: blue;
+      font-family: Trebuchet MS;
+    }
+    
+    .app-table {}
+    
+    .app-city {
+      color: white;
+      background-color: #c9302c;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      font-weight: 500;
+      line-height: 1.1;
+      font-family: Comic Sans MS;
+    }
+    
+    .app-time {
+      color: white;
+      background-color: #449d44;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      font-weight: 500;
+      line-height: 1.1;
+      font-family: Georgia;
+    }
+  </style>
 
-    <center><h1 class='app-header'>World time</h1></center>
-    
-   
-<div id = "Location">
-     <h1>    {{getUTC().toUTCString()}} </h1>
-          <p><button class = "app-button">South East Asia</button></p>
-<table>
-   <tbody>
-  <tr v-for ="city in cities ">
-    <td class = "app-city"> {{ city.name }} </td>
-    <td class = "app-time"> {{ city.offsetDisplay }} </td>
-    <td class = "app-time"> {{ calculateTime(getUTC(), city.offsetHours,city.offsetMinutes) }} </td>
-  </tr> 
-    </tbody>   
-</table>
- </div>
-    
-    
-<script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
-<script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyAhSOkYEo71VuS5PVUcFNTQtN-Pms1BdFA",
-    authDomain: "rakpong-457d6.firebaseapp.com",
-    databaseURL: "https://rakpong-457d6.firebaseio.com",
-    projectId: "rakpong-457d6",
-    storageBucket: "rakpong-457d6.appspot.com",
-    messagingSenderId: "93087903344"
-  };
-  firebase.initializeApp(config);
-</script>
-    
+</head>
 
-     <script  type ="text/javascript">
-     var app = new Vue 
-     ({
-      el: '#Location',
-      data : {
-        cities:[
-                {name : "Thailand",offsetDisplay : "+07:00 ",offsetCode : "Asia/Bangkok"}, 
-                {name : "Myanmar", offsetDisplay : " +06:30",offsetCode : "Asia/Rangoon"},
-                //{name : "Laos", offsetDisplay : "+07:00",offsetHours: 7.00 ,offsetMinutes: 0.0 },
-                //{name : "Singapore", offsetDisplay : "+08:00",offsetHours: 8.00 ,offsetMinutes: 0.0},
-                //{name : "Timor-Leste", offsetDisplay : "+09:00",offsetHours: 9.00 ,offsetMinutes: 0.0}
-              ]
-            ,
-            }, 
-      methods: {
-                  calculateTime: function(time,code) 
-                  {
-                      var dateTime = time.t
-    
-                      return time.getUTCHours() + hours + ":" + (time.getUTCMinutes() + minutes) %60 ;                    
-                     
-                  },
-                  getUTC: function()
-                  {
-                    var utcTime = new Date();
-                    return utcTime;
-                  }
-              }
-      
-     })
-    </script>
-    
-    
- 
-  
-    
-   
-  </body>
+<body>
+  <script src="https://unpkg.com/vue"></script>
+
+  <center>
+    <h1 class='app-header'>World time</h1>
+  </center>
+
+
+  <div id="Location">
+    <h1> {{getUTC().toUTCString()}} </h1>
+    <p><button class="app-button">South East Asia</button></p>
+    <table>
+      <tbody>
+        <tr v-for="city in cities ">
+          <td class="app-city"> {{ city.name }} </td>
+          <td class="app-time"> {{ city.offsetDisplay }} </td>
+          <td class="app-time"> {{ calculateTime(getUTC(), city.offsetCode) }} </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyAhSOkYEo71VuS5PVUcFNTQtN-Pms1BdFA",
+      authDomain: "rakpong-457d6.firebaseapp.com",
+      databaseURL: "https://rakpong-457d6.firebaseio.com",
+      projectId: "rakpong-457d6",
+      storageBucket: "rakpong-457d6.appspot.com",
+      messagingSenderId: "93087903344"
+    };
+    firebase.initializeApp(config);
+
+  </script>
+
+
+  <script type="text/javascript">
+    var app = new Vue
+      ({
+        el: '#Location',
+        data: {
+          cities: [
+            
+          ]
+          ,
+        },
+        methods: {
+          calculateTime: function (time, code) {
+            var dateTime = time.toLocaleString("en-US", { timeZone: code, timeZoneName: "short" })
+
+                            
+            return dateTime
+          },
+          getUTC: function () {
+            var utcTime = new Date();
+            return utcTime;
+          }
+        }
+
+      })
+      var database = firebase.database()
+      var citiesDatabase = database.ref()
+      citiesDatabase.on("value", (snapshot) => {
+         app.cities = (convertFromFirebase(snapshot.val()))
+      })
+    var convertFromFirebase = (data) => {
+      var ids = Object.keys(data)
+      return ids.map(id => data[id])
+    }
+  </script>
+
+
+
+
+
+
+</body>
+
 </html>
