@@ -42,9 +42,19 @@
       font-family: Comic Sans MS;
     }
     
-    .app-time {
+    .app-offsettime {
       color: white;
       background-color: #449d44;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      font-weight: 500;
+      line-height: 1.1;
+      font-family: Georgia;
+    }
+    
+    .app-time {
+      color: white;
+      background-color: #530E8A;
       margin-top: 20px;
       margin-bottom: 10px;
       font-weight: 500;
@@ -70,7 +80,7 @@
       <tbody>
         <tr v-for="city in cities ">
           <td class="app-city"> {{ city.name }} </td>
-          <td class="app-time"> {{ city.offsetDisplay }} </td>
+          <td class="app-offsettime"> {{ city.offsetDisplay }} </td>
           <td class="app-time"> {{ calculateTime(getUTC(), city.offsetCode) }} </td>
         </tr>
       </tbody>
@@ -90,7 +100,6 @@
       messagingSenderId: "93087903344"
     };
     firebase.initializeApp(config);
-
   </script>
 
 
@@ -100,16 +109,19 @@
         el: '#Location',
         data: {
           cities: [
-            
+
           ]
           ,
         },
         methods: {
           calculateTime: function (time, code) {
-            var dateTime = time.toLocaleString("en-US", { timeZone: code, timeZoneName: "short" })
+            var dateTime = time.toLocaleString("en-US", { timeZone: code, timeZoneName: "short", hour12: false })
 
-                            
-            return dateTime
+            var words = dateTime.split(" ")
+
+
+
+            return words[0] + "   " + words[1]
           },
           getUTC: function () {
             var utcTime = new Date();
@@ -118,11 +130,11 @@
         }
 
       })
-      var database = firebase.database()
-      var citiesDatabase = database.ref()
-      citiesDatabase.on("value", (snapshot) => {
-         app.cities = (convertFromFirebase(snapshot.val()))
-      })
+    var database = firebase.database()
+    var citiesDatabase = database.ref()
+    citiesDatabase.on("value", (snapshot) => {
+      app.cities = (convertFromFirebase(snapshot.val()))
+    })
     var convertFromFirebase = (data) => {
       var ids = Object.keys(data)
       return ids.map(id => data[id])
