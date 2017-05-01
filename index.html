@@ -72,7 +72,22 @@
     </tbody>   
 </table>
  </div>
-
+    
+    
+<script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAhSOkYEo71VuS5PVUcFNTQtN-Pms1BdFA",
+    authDomain: "rakpong-457d6.firebaseapp.com",
+    databaseURL: "https://rakpong-457d6.firebaseio.com",
+    projectId: "rakpong-457d6",
+    storageBucket: "rakpong-457d6.appspot.com",
+    messagingSenderId: "93087903344"
+  };
+  firebase.initializeApp(config);
+</script>
+    
 
      <script  type ="text/javascript">
      var app = new Vue 
@@ -80,18 +95,18 @@
       el: '#Location',
       data : {
         cities:[
-                {name : "Thailand",offsetDisplay : "+07:00 ",offsetHours: 7.00 ,offsetMinutes: 0.0}, 
-                {name : "Myanmar", offsetDisplay : " +06:30",offsetHours: 6.00 ,offsetMinutes: 30.0},
-                {name : "Laos", offsetDisplay : "+07:00",offsetHours: 7.00 ,offsetMinutes: 0.0 },
-                {name : "Singapore", offsetDisplay : "+08:00",offsetHours: 8.00 ,offsetMinutes: 0.0},
-                {name : "Timor-Leste", offsetDisplay : "+09:00",offsetHours: 9.00 ,offsetMinutes: 0.0}
+                {name : "Thailand",offsetDisplay : "+07:00 ",offsetCode : "Asia/Bangkok"}, 
+                {name : "Myanmar", offsetDisplay : " +06:30",offsetCode : "Asia/Rangoon"},
+                //{name : "Laos", offsetDisplay : "+07:00",offsetHours: 7.00 ,offsetMinutes: 0.0 },
+                //{name : "Singapore", offsetDisplay : "+08:00",offsetHours: 8.00 ,offsetMinutes: 0.0},
+                //{name : "Timor-Leste", offsetDisplay : "+09:00",offsetHours: 9.00 ,offsetMinutes: 0.0}
               ]
             ,
             }, 
       methods: {
-                  calculateTime: function(time,hours,minutes) 
+                  calculateTime: function(time,code) 
                   {
-                      var epochTime =time.getTime();
+                      var dateTime = time.t
     
                       return time.getUTCHours() + hours + ":" + (time.getUTCMinutes() + minutes) %60 ;                    
                      
