@@ -63,7 +63,10 @@
     }
   </style>
 
+  <!--<meta http-equiv="refresh" content="10">-->
 </head>
+
+
 
 <body>
   <script src="https://unpkg.com/vue"></script>
@@ -74,14 +77,14 @@
 
 
   <div id="Location">
-    <h1> {{getUTC().toUTCString()}} </h1>
+    <h1 id="clock"> {{now.toUTCString()}} </h1>
     <p><button class="app-button">South East Asia</button></p>
     <table>
       <tbody>
         <tr v-for="city in cities ">
           <td class="app-city"> {{ city.name }} </td>
           <td class="app-offsettime"> {{ city.offsetDisplay }} </td>
-          <td class="app-time"> {{ calculateTime(getUTC(), city.offsetCode) }} </td>
+          <td class="app-time"> {{ calculateTime(now, city.offsetCode) }} </td>
         </tr>
       </tbody>
     </table>
@@ -106,12 +109,11 @@
   <script type="text/javascript">
     var app = new Vue
       ({
+
         el: '#Location',
         data: {
-          cities: [
-
-          ]
-          ,
+          cities: [],
+          now: new Date()
         },
         methods: {
           calculateTime: function (time, code) {
@@ -122,14 +124,16 @@
 
 
             return words[0] + "   " + words[1]
-          },
-          getUTC: function () {
-            var utcTime = new Date();
-            return utcTime;
           }
+          
         }
 
       })
+
+    setInterval(() => {
+      app.now = new Date()
+    }, 1000);
+
     var database = firebase.database()
     var citiesDatabase = database.ref()
     citiesDatabase.on("value", (snapshot) => {
@@ -140,11 +144,6 @@
       return ids.map(id => data[id])
     }
   </script>
-
-
-
-
-
 
 </body>
 
